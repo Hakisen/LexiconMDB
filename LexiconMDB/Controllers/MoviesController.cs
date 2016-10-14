@@ -26,6 +26,24 @@ namespace LexiconMDB.Controllers
             return View(model);
         }
 
+        public ActionResult Genre(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                RedirectToAction("Index");
+            }
+            ViewBag.Genre = id;
+            var model = db.Movies
+                .Where(m => m.Genre.ToString().ToLower() == id.ToLower());
+
+            if (model.Count() == 0)
+            {
+                ViewBag.ResultMessage = $"There are no movies in the genre '{id}'";
+            }            
+
+            return View(model.ToList());
+        }
+
         // GET: Movies/Details/5
         public ActionResult Details(int? id)
         {
